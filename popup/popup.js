@@ -17,7 +17,7 @@ let querying = browser.tabs.query(queryInfo).then((result) => {
 
     //Search google with this title
     console.log("Title: ", result);
-    let searchQuery = result[0].title.slice(0, result[0].title.length/2); 
+    let searchQuery = result[0].title;
 
     //Figure out which news site this current article is on. Find the current domain, get the recommended domains, apply the links
     let currentSite = result[0].url.match(/^((?:https?:\/\/)?(?:[^@\n]+@)?(?:www\.)?([^:\/\n?]+))/img, "")[0];
@@ -32,10 +32,9 @@ let querying = browser.tabs.query(queryInfo).then((result) => {
         while(popup.hasChildNodes) {
             popup.removeChild(popup.firstChild);
         }
-        let error = document.createElement("div");
-        let errorMessage = document.createTextNode("Website not supported");
-        error.appendChild(errorMessage);
-        popup.append(error);
+        let error = document.createElement("img");
+        error.src = 'images/bbc.jpeg'
+        popup.appendChild(error);
     }
    
     //Iterate through the differents orgs and push the non current domains into reccomended domains
@@ -81,18 +80,19 @@ function requestURL(i, url, result, currentSite) {
                 bingResults[0] = response["webPages"]["value"][0].url;
                 domainResults[0] = bingResults[0].match(/^((?:https?:\/\/)?(?:[^@\n]+@)?(?:www\.)?([^:\/\n?]+))/img, "");
                 document.getElementById("recommended-news-first-link").href = bingResults[0];
-                console.log("search: " + i + " ", bingResults[0].url);
+                console.log("search: " + i + " ", bingResults[0]);
                 document.getElementById("recommended-news-first-image").src = dict[domainResults[0]];
             }
             else if(i == 1) {
+                
                 
                 //bingResults is the domain and the path params from the response, domainResults is just the domain from the response
                 let bingResults = [];
                 let domainResults = [];
                 bingResults[0] = response["webPages"]["value"][0].url;
                 domainResults[0] = bingResults[0].match(/^((?:https?:\/\/)?(?:[^@\n]+@)?(?:www\.)?([^:\/\n?]+))/img, "");
-                document.getElementById("recommended-news-second-link").href = bingResults[0].url;
-                console.log("search: "+ i + " ", bingResults[0].url);
+                document.getElementById("recommended-news-second-link").href = bingResults[0];
+                console.log("search: " + i + " ", bingResults[0]);
                 document.getElementById("recommended-news-second-image").src = dict[domainResults[0]];
             }
             
