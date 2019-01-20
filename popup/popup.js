@@ -29,11 +29,9 @@ let querying = browser.tabs.query(queryInfo).then((result) => {
         console.log("NOT SUPPORTED");
         //Remove all children of popup html
         let popup = document.getElementById("popup");
-        while(popup.hasChildNodes) {
-            popup.removeChild(popup.firstChild);
-        }
-        let error = document.createElement("img");
-        error.src = 'images/bbc.jpeg'
+        removeChildNodes(popup);
+        let error = document.createElement("div");
+        error.innerHTML = 'Webpage not supported.'
         popup.appendChild(error);
     }
    
@@ -104,5 +102,16 @@ function requestURL(i, url, result, currentSite) {
     xhttp.send();
 
 }
+
+function removeChildNodes(parentDiv){
+    if(parentDiv != null)
+    {
+        while (parentDiv.hasChildNodes()) {
+            parentDiv.removeChild(parentDiv.firstChild);
+        }
+    }
+    
+}
+
 
 console.log(`Alt-Facts: Was loaded!`);
