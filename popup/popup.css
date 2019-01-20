@@ -1,0 +1,17 @@
+img {
+	width: 50px;
+	margin: 0 7px;
+}
+
+p {
+	margin-right: auto;
+}
+
+#current-section {
+	display: flex;
+	margin-bottom: 7px;
+}
+
+#recommended-section {
+	display: flex;
+}
