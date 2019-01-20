@@ -5,6 +5,7 @@
 
 	"description": "Same news, different sites. A Firefox web extension",
 	"homepage_url": "https://github.com/ufosc/Alt-Facts",
+	"content_security_policy": "script-src 'self' https://apis.google.com; object-src 'self'",
 
 	"icons": {
 		"48": "icons/checkbook.png",
@@ -24,6 +25,7 @@
 	"browser_action": {
     "default_icon": "icons/checkbook.png",
     "default_title": "Alt-Facts",
-    "default_popup": "popup/popup.html"
+	"default_popup": "popup/popup.html"
+	
   }
 }
