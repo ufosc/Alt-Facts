@@ -19,40 +19,7 @@
 		</div>
 	</div>
 	<script type="application/javascript" src="/browser-polyfill.js"></script>
-<script>
-	
-	function sleep(ms) {
-		return new Promise(resolve => setTimeout(resolve, ms));
-	
-	}
-	async function load_js1()
-   {
-	//Load gapi
-      var head= document.getElementsByTagName('head')[0];
-      var script= document.createElement('script');
-      script.src= "https://apis.google.com/js/api.js?onload";
-	  head.appendChild(script);
-	  return await sleep(3000);
-	  
-   }
-
-	
-   function load_js2()
-   {
-	//Load everything else
-      var head= document.getElementsByTagName('head')[0];
-      var script= document.createElement('script');
-      script.src= 'popup.js';
-      head.appendChild(script);
-   }
-
-   load_js1().then(() => {
-	load_js2();
-   });
-   
-
-
-</script>
+	<script src="popup.js"></script>
 
 </body>
 </html>
