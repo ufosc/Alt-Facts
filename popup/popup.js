@@ -12,8 +12,6 @@ let queryInfo = {
     "active": true,
 }
 
-console.log(gapi)
-
 //Get info from the current active browser using the queryInfo object
 let querying = browser.tabs.query(queryInfo).then((result) => {
 
@@ -45,58 +43,54 @@ let querying = browser.tabs.query(queryInfo).then((result) => {
             recommended.push(org);
         }
     });
-
+    console.log("About to search");
     //TODO: GET GOOGLE SEARCH RESULTS HERE based on searchQuery (only use recommened domains)
+    let xhttp = new XMLHttpRequest();
+    let url = `https://api.cognitive.microsoft.com/bing/v7.0/search?q=${searchQuery}+"site:"+${recommended[0]}+" OR "+${recommended[1]}+&count=10&offset=0&mkt=en-us&safesearch=Moderate`
+    xhttp.onreadystatechange = function() {
+        console.log("Before ready");
+        if (this.readyState == 4 && this.status == 200) {
+            // Typical action to be performed when the document is ready:
+            console.log("results: ", xhttp.responseText);
+            let response = JSON.parse(xhttp.responseText);
+
+            //bingResults is the domain and the path params from the response, domainResults is just the domain from the response
+            let bingResults = [];
+            let domainResults = [];
+
+            bingResults.push(response["webPages"]["value"][0].url);
+            bingResults.push(response["webPages"]["value"][1].url);
+            domainResults[0] = bingResults[0].match(/^((?:https?:\/\/)?(?:[^@\n]+@)?(?:www\.)?([^:\/\n?]+))/img, "");
+            domainResults[1] = bingResults[1].match(/^((?:https?:\/\/)?(?:[^@\n]+@)?(?:www\.)?([^:\/\n?]+))/img, "");
+
+            console.log("Test area:")
+            console.log(recommended[0])
+            console.log(recommended[1])
+            console.log(bingResults[0])
+            console.log(bingResults[1])
+            console.log(domainResults[0])
+            console.log(domainResults[1])
+            //TODO: APPLY LINKS TO RECOMMENDED ARRAY BASED FROM THE RESULTS OF THE GOOGLE SEARCH
+
+            //Match the images with links and display them in correct location
+            document.getElementById("current-news-link").href = result[0].url;
+            document.getElementById("current-news-image").src = dict[currentSite];
+
+            //TODO: Replace links with accurate ones once google results are implemented
+            document.getElementById("recommended-news-first-link").href = bingResults[0];
+            document.getElementById("recommended-news-first-image").src = dict[domainResults[0]];
+            document.getElementById("recommended-news-second-link").href = bingResults[1].url;
+            document.getElementById("recommended-news-second-image").src = dict[domainResults[1]];
+        }
+    };
+    xhttp.open("GET", url, true);
+    xhttp.setRequestHeader("Ocp-Apim-Subscription-Key", "380ffeed758e4b99be10b3b5fb1cc143");
+    xhttp.send();
     
-    loadClient().then(() => {
-        execute(searchQuery);
-
-        //TODO: APPLY LINKS TO RECOMMENDED ARRAY BASED FROM THE RESULTS OF THE GOOGLE SEARCH
-
-        //Match the images with links and display them in correct location
-        document.getElementById("current-news-link").href = result[0].url;
-        document.getElementById("current-news-image").src = dict[currentSite];
-
-        //TODO: Replace links with accurate ones once google results are implemented
-        document.getElementById("recommended-news-first-link").href = result[0].url;
-        document.getElementById("recommended-news-first-image").src = dict[currentSite];
-        document.getElementById("recommended-news-second-link").href = result[0].url;
-        document.getElementById("recommended-news-second-image").src = dict[currentSite];
-    });
-    
-    
 
     
-
-
-
+    
+    
 });
-
-function loadClient() {
-    console.log("in loadClient")
-    let test = null;
-    let test2;
-    console.log(test)
-    console.log(test2)
-    console.log(gapi.load)
-    gapi.client.setApiKey(AIzaSyBwYfVMhEL8QPZ2RGfGYIhTE0LWH6sXGN4);
-    return gapi.client.load("https://content.googleapis.com/discovery/v1/apis/customsearch/v1/rest")
-        .then(function() { console.log("GAPI client loaded for API"); },
-            function(err) { console.error("Error loading GAPI client for API", err); });
-}
-
-// Make sure the client is loaded before calling this method.
-function execute(query) {
-	console.log("in execute")
-    return gapi.client.search.cse.list({
-        "q": query,
-        "cx": "004649689299812298879:wkbvmvrnja8"
-    })
-    .then(function(response) {
-        // Handle the results here (response.result has the parsed body).
-        console.log("Response", response);
-        },
-        function(err) { console.error("Execute error", err); });
-}
 
 console.log(`Alt-Facts: Was loaded!`);
