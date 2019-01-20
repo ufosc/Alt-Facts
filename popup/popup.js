@@ -28,6 +28,24 @@ let querying = browser.tabs.query(queryInfo).then((result) => {
 
     //Figure out which news site this current article is on. Find the current domain, get the recommended domains, apply the links
     let currentSite = result[0].url.match(/^((?:https?:\/\/)?(?:[^@\n]+@)?(?:www\.)?([^:\/\n?]+))/img, "")[0];
+
+    //Parse the titles of their own name to increase search results that comply with our search algorithm
+    if(currentSite.includes("fox")){
+        searchQuery = searchQuery.slice(0, searchQuery.length - 10);
+        console.log("Searched: ", searchQuery);
+    }
+    else if(currentSite.includes("msnbc")) {
+        /* let searchMask = "msnbc";
+        var regEx = new RegExp(searchMask, "ig");
+        searchQuery.replace(regEx, ""); */
+    }
+    else if(currentSite.includes("bbc")) {
+       /*  let searchMask = "bbc";
+        var regEx = new RegExp(searchMask, "ig");
+        searchQuery.replace(regEx, ""); */
+    }
+
+
     console.log("current Site: ", currentSite);
 
     //Disable website if not on supported organization
