@@ -1,5 +1,5 @@
 //News organizations that we will use to tell which link needs to be "recommended"
-const orgs = ["https://www.foxnews.com", "https://www.bbc.com", "http://www.msnbc.com"];
+const orgs = ["https://www.foxnews.com", "https://www.bbc.com", "https://www.msnbc.com"];
 let recommended = [];
 const dict = {
     "https://www.foxnews.com": "images/fox.png",
@@ -21,9 +21,10 @@ let querying = browser.tabs.query(queryInfo).then((result) => {
 
     //Figure out which news site this current article is on. Find the current domain, get the recommended domains, apply the links
     let currentSite = result[0].url.match(/^((?:https?:\/\/)?(?:[^@\n]+@)?(?:www\.)?([^:\/\n?]+))/img, "")[0];
-    console.log("title name: ", currentSite);
+    console.log("current Site: ", currentSite);
 
     //Disable website if not on supported organization
+    console.log(orgs)
     if(!orgs.includes(currentSite)) {
         console.log("NOT SUPPORTED");
         //Remove all children of popup html
@@ -65,27 +66,34 @@ function requestURL(i, url, result, currentSite) {
             console.log("results: ", JSON.parse(xhttp.responseText));
             let response = JSON.parse(xhttp.responseText);
 
-            //bingResults is the domain and the path params from the response, domainResults is just the domain from the response
-            let bingResults = [];
-            let domainResults = [];
-
-            bingResults.push(response["webPages"]["value"][0].url);
-            domainResults[0] = bingResults[0].match(/^((?:https?:\/\/)?(?:[^@\n]+@)?(?:www\.)?([^:\/\n?]+))/img, "");
-
-            //TODO: APPLY LINKS TO RECOMMENDED ARRAY BASED FROM THE RESULTS OF THE GOOGLE SEARCH
 
             //Match the images with links and display them in correct location
             document.getElementById("current-news-link").href = result[0].url;
             document.getElementById("current-news-image").src = dict[currentSite];
 
+            console.log("i", i);
             //TODO: Replace links with accurate ones once google results are implemented
             if(i == 0) {
+                
+                //bingResults is the domain and the path params from the response, domainResults is just the domain from the response
+                let bingResults = [];
+                let domainResults = [];
+                bingResults[0] = response["webPages"]["value"][0].url;
+                domainResults[0] = bingResults[0].match(/^((?:https?:\/\/)?(?:[^@\n]+@)?(?:www\.)?([^:\/\n?]+))/img, "");
                 document.getElementById("recommended-news-first-link").href = bingResults[0];
+                console.log("search: " + i + " ", bingResults[0].url);
                 document.getElementById("recommended-news-first-image").src = dict[domainResults[0]];
             }
             else if(i == 1) {
-                document.getElementById("recommended-news-second-link").href = bingResults[1].url;
-                document.getElementById("recommended-news-second-image").src = dict[domainResults[1]];
+                
+                //bingResults is the domain and the path params from the response, domainResults is just the domain from the response
+                let bingResults = [];
+                let domainResults = [];
+                bingResults[0] = response["webPages"]["value"][0].url;
+                domainResults[0] = bingResults[0].match(/^((?:https?:\/\/)?(?:[^@\n]+@)?(?:www\.)?([^:\/\n?]+))/img, "");
+                document.getElementById("recommended-news-second-link").href = bingResults[0].url;
+                console.log("search: "+ i + " ", bingResults[0].url);
+                document.getElementById("recommended-news-second-image").src = dict[domainResults[0]];
             }
             
             
