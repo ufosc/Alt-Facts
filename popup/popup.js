@@ -3,8 +3,15 @@ const orgs = ["https://www.foxnews.com", "https://www.bbc.com", "https://www.msn
 let recommended = [];
 const dict = {
     "https://www.foxnews.com": "images/fox.png",
+    "http://www.foxnews.com": "images/fox.png",
+    "www.foxnews.com": "images/fox.png",
     "https://www.bbc.com": "images/bbc.jpeg",
-    "https://www.msnbc.com": "images/msnbc.png"
+    "http://www.bbc.com": "images/bbc.jpeg",
+    "www.bbc.com": "images/bbc.jpeg",
+    "https://www.msnbc.com": "images/msnbc.png",
+    "http://www.msnbc.com": "images/msnbc.png",
+    "www.msnbc.com": "images/msnbc.png"
+
 }
 
 //Query info to get active tabs
