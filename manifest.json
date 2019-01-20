@@ -1,0 +1,29 @@
+{
+	"manifest_version": 2,
+	"name": "Alt-Facts",
+	"version": "0.1",
+
+	"description": "Same news, different sites. A Firefox web extension",
+	"homepage_url": "https://github.com/ufosc/Alt-Facts",
+
+	"icons": {
+		"48": "icons/checkbook.png",
+		"96": "icons/checkbook.svg"
+	},
+
+	"permissions": [
+		"tabs"
+	],
+	
+	"background": {
+		"scripts": [
+			"browser-polyfill.js"
+		]
+	},
+
+	"browser_action": {
+    "default_icon": "icons/checkbook.png",
+    "default_title": "Alt-Facts",
+    "default_popup": "popup/popup.html"
+  }
+}

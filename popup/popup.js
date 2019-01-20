@@ -1,0 +1,1 @@
+console.log(`Alt-Facts: Was loaded!`);
